@@ -20,6 +20,18 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+    // Collision Function
+    UFUNCTION()
+    void OnCollide(UPrimitiveComponent* OverlappedComponent, AActor* other, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+    // The root of the actor
+    UPROPERTY(EditAnywhere)
+    USceneComponent* pickupRoot;
+
+    // The collision component
+    UPROPERTY(EditAnywhere)
+    UShapeComponent* collisionBox;
+
 	// The mesh for our pickup
     UPROPERTY(EditAnywhere)
     UStaticMeshComponent* pickupMesh;
