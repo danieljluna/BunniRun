@@ -62,13 +62,12 @@ void ABunniRunCharacter::Move_YAxis(float axisValue) {
 void ABunniRunCharacter::eatFood(float nutritionValue) {
     
     //If we are large enough to eat it
-    if (totalNutrition > nutritionValue) {
+    if (totalNutrition >= nutritionValue) {
 
-        totalNutrition += nutritionValue / 2;
+        totalNutrition += nutritionValue / (GetActorScale3D().X);
 
-        if (totalNutrition != 0) {
-            SetActorScale3D(FVector(totalNutrition / 10.0f));
-        }
-
+        SetActorScale3D(FVector(totalNutrition / 10.0f));
+        UE_LOG(LogTemp, Warning, TEXT("NUTRITION UPPED"));
+        
     }
 }

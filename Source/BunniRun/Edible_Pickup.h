@@ -12,7 +12,7 @@ class BUNNIRUN_API AEdible_Pickup : public AActor
 	
 public:	
     UPROPERTY(EditAnywhere)
-    float nutritionValue = 1000;
+    float nutritionValue = 10;
 
 	// Sets default values for this actor's properties
 	AEdible_Pickup();

@@ -27,15 +27,18 @@ public:
 
     //Stores movement data about the Bunny
     UPROPERTY(EditAnywhere)
-    float maxSpeed = 500.0f;
+    float maxSpeed = 1000.0f;
     FVector movementDir;
 
     //Used to gain nutrition
     void eatFood(float nutritionValue);
     
     //Stores size 
+    UPROPERTY(EditAnywhere)
     float totalNutrition = 10;
-
+    
+    UPROPERTY(EditAnywhere)
+    float consumptionEfficiency = 1.0f;
 
 private:
 	/** Top down camera */
