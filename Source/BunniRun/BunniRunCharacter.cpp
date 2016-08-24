@@ -34,34 +34,41 @@ ABunniRunCharacter::ABunniRunCharacter()
 	TopDownCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
-	// Create a decal in the world to show the cursor's location
-	CursorToWorld = CreateDefaultSubobject<UDecalComponent>("CursorToWorld");
-	CursorToWorld->SetupAttachment(RootComponent);
-	static ConstructorHelpers::FObjectFinder<UMaterial> DecalMaterialAsset(TEXT("Material'/Game/TopDownCPP/Blueprints/M_Cursor_Decal.M_Cursor_Decal'"));
-	if (DecalMaterialAsset.Succeeded())
-	{
-		CursorToWorld->SetDecalMaterial(DecalMaterialAsset.Object);
-	}
-	CursorToWorld->DecalSize = FVector(16.0f, 32.0f, 32.0f);
-	CursorToWorld->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());
-
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
 }
 
 void ABunniRunCharacter::Tick(float DeltaSeconds)
 {
-	if (CursorToWorld != nullptr)
-	{
-		if (APlayerController* PC = Cast<APlayerController>(GetController()))
-		{
-			FHitResult TraceHitResult;
-			PC->GetHitResultUnderCursor(ECC_Visibility, true, TraceHitResult);
-			FVector CursorFV = TraceHitResult.ImpactNormal;
-			FRotator CursorR = CursorFV.Rotation();
-			CursorToWorld->SetWorldLocation(TraceHitResult.Location);
-			CursorToWorld->SetWorldRotation(CursorR);
-		}
-	}
+    Super::Tick(DeltaSeconds);
+
+    //Handle Velocity Movement
+    if (!movementDir.IsZero()) {
+        FVector newLocation = GetActorLocation() + (maxSpeed * DeltaSeconds * movementDir);
+        SetActorLocation(newLocation);
+    }
+}
+
+void ABunniRunCharacter::Move_XAxis(float axisValue) {
+    movementDir.X = FMath::Clamp(axisValue, -1.0f, 1.0f);
+}
+
+void ABunniRunCharacter::Move_YAxis(float axisValue) {
+    movementDir.Y = FMath::Clamp(axisValue, -1.0f, 1.0f);
+}
+
+void ABunniRunCharacter::eatFood(float nutritionValue) {
+    
+    //If we are large enough to eat it
+    if (totalNutrition > nutritionValue) {
+
+        totalNutrition += nutritionValue / 2;
+
+        if (totalNutrition != 0) {
+            SetActorScale3D(FVector(totalNutrition / 10.0f));
+        }
+
+    }
 }

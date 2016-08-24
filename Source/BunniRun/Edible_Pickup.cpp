@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BunniRun.h"
+#include "BunniRunCharacter.h"
 #include "Edible_Pickup.h"
 
 
@@ -42,6 +43,12 @@ void AEdible_Pickup::Tick( float DeltaTime )
 }
 
 void AEdible_Pickup::OnCollide(UPrimitiveComponent * OverlappedComponent, AActor * other, UPrimitiveComponent * otherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) {
-    Destroy();
+    
+    ABunniRunCharacter* collidingCharacter = Cast<ABunniRunCharacter>(other);
+    
+    if (collidingCharacter != nullptr) {
+        collidingCharacter->eatFood(nutritionValue);
+        Destroy();
+    }
 }
 

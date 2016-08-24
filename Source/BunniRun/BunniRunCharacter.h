@@ -19,6 +19,24 @@ public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
+    //Deals with movement in the bunni
+
+    /** Input handlers for movement. */
+    void Move_XAxis(float axisValue);
+    void Move_YAxis(float axisValue);
+
+    //Stores movement data about the Bunny
+    UPROPERTY(EditAnywhere)
+    float maxSpeed = 500.0f;
+    FVector movementDir;
+
+    //Used to gain nutrition
+    void eatFood(float nutritionValue);
+    
+    //Stores size 
+    float totalNutrition = 10;
+
+
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -28,8 +46,5 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 
-	/** A decal that projects to the cursor location. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UDecalComponent* CursorToWorld;
 };
 

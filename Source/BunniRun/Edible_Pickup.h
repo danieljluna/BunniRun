@@ -11,6 +11,9 @@ class BUNNIRUN_API AEdible_Pickup : public AActor
 	GENERATED_BODY()
 	
 public:	
+    UPROPERTY(EditAnywhere)
+    float nutritionValue = 1000;
+
 	// Sets default values for this actor's properties
 	AEdible_Pickup();
 
